@@ -8,22 +8,23 @@ const { spawnSync } = require('child_process');
 
 function verilogText(text, id) {
     return new Promise((resolve, reject) => {
-        const data_prefix = '/home/michael1017/env_test/data/';
         const python = '/usr/bin/python3';
-        const convertor = '/home/michael1017/env_test/server/generator.py';
-        const input_data = data_prefix + id + '.v';
+        const data_prefix = '/home/michael1017/env_test/data/';
+        const generator = '/home/michael1017/final/server/generator.py'
+        const filename = data_prefix + id;
+        const filename_v = filename + '.v';
 
-        fs.writeFile(input_data, text, (err) => {
+        fs.writeFileSync(filename_v, text, (err) => {
             if (err) reject(err);
         });
 
         const generatorLog = spawnSync(
             python, 
-            [interpreter, id]
+            [generator, filename_v]
         );
         
         const fileInfo = {
-            text: data_prefix + id + '.svg',
+            text: filename + '.svg',
         };
         
         resolve(fileInfo);
@@ -37,7 +38,7 @@ function verilogFile(file, id) {
         const interpreter = '/home/michael1017/env_test/server/generator.py';
         const input_data = data_prefix + id + '.v';
 
-        fs.writeFile(input_data, text, (err) => {
+        fs.writeFileSync(input_data, text, (err) => {
             if (err) reject(err);
         });
 
@@ -59,11 +60,12 @@ function userDefinedText(text, id) {
         const python = '/usr/bin/python3';
         const data_prefix = '/home/michael1017/env_test/data/';
         const interpreter = '/home/michael1017/final/Logic-Gate-Interpreter/Interpreter';
+        const generator = '/home/michael1017/final/server/generator.py'
         const filename = data_prefix + id;
         const filename_txt = filename + '.txt';
         const filename_v = filename + '.v';
 
-        fs.writeFile(filename_txt, text, (err) => {
+        fs.writeFileSync(filename_txt, text, (err) => {
             if (err) reject(err);
         });
 
@@ -73,7 +75,7 @@ function userDefinedText(text, id) {
         );
         const generatorLog = spawnSync(
             python, 
-            [filename_v]
+            [generator, filename_v]
         );
 
         const fileInfo = {

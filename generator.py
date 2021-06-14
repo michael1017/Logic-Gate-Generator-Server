@@ -2,7 +2,9 @@ import sys
 import time
 import os
 
-output_file = sys.argv[1] - '.v'
+assert(sys.argv[1].endswith('.v'))
+output_file = sys.argv[1][:-2]
+print(output_file)
 output_v    = output_file + '.v'
 output_json = output_file + '.json'
 output_svg  = output_file + '.svg'

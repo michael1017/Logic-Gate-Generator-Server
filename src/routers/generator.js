@@ -15,11 +15,6 @@ router.post('/verilogText', function (req, res, next) {
     err.status = 400;
     throw err;
   }
-  if (!id) {
-    const err = new Error('verilogText: No id input');
-    err.status = 400;
-    throw err;
-  }
   generatorModel
     .verilogText(text, id)
     .then((post) => {
@@ -35,11 +30,6 @@ router.post('/verilogFile', function (req, res, next) {
     err.status = 400;
     throw err;
   }
-  if (!id) {
-    const err = new Error('verilogFile: No id input');
-    err.status = 400;
-    throw err;
-  }
   generatorModel
     .verilogFile(file, id)
     .then((post) => {
@@ -52,11 +42,6 @@ router.post('/userDefinedText', function (req, res, next) {
   const { text, id } = req.body;
   if (!text) {
     const err = new Error('userDefinedText: No text input');
-    err.status = 400;
-    throw err;
-  }
-  if (!id) {
-    const err = new Error('userDefinedText: No id input');
     err.status = 400;
     throw err;
   }
