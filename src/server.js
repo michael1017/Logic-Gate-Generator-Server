@@ -1,6 +1,7 @@
 const express = require('express');
 
-const graphRouter = require('./routers/graph.js');
+const generatorRouter = require('./routers/generator.js');
+const returnRouter = require('./routers/return.js');
 const accessController = require('./middleware/accessController');
 const errorHandler = require('./middleware/error-handler.js');
 
@@ -8,14 +9,15 @@ const app = express();
 
 // app.use(requestLogger);
 app.use(
-  express.static('dist', {
+  express.static('build', {
     setHeaders: (res, path, stat) => {
       res.set('Cache-Control', 'public, s-maxage=86400');
     },
   })
 );
 app.use(accessController);
-app.use('/api/graph', graphRouter);
+app.use('/api/send', generatorRouter);
+app.use('/api/receive', returnRouter);
 app.get('/*', (req, res) => res.redirect('/'));
 app.use(errorHandler);
 
