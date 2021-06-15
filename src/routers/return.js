@@ -5,11 +5,12 @@ const router = express.Router();
 
 router.use(bodyParser.json());
 
-
+//To be verified
 router.get('/receive', function (req, res, next) {
   const { id } = req.body;
-
-  const data_prefix = '/home/michael1017/env_test/data/';
+  
+  console.log("Get into router receive");
+  const data_prefix = '../data/';
   const filename = data_prefix + id;
   const filename_svg = filename + '.svg';
   res.setHeader('Content-Type', 'image/svg+xml');

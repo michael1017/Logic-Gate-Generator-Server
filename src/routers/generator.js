@@ -23,6 +23,7 @@ router.post('/verilogText', function (req, res, next) {
     .catch(next);
 });
 
+// not yet
 router.post('/verilogFile', function (req, res, next) {
   const { file, id } = req.body;
   if (!file) {

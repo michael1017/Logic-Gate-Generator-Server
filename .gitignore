@@ -3,6 +3,8 @@ npm-debug.log
 .tern-project
 data-*.json
 logs.txt
+build
+data
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

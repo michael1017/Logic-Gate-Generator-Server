@@ -9,11 +9,11 @@ const { spawnSync } = require('child_process');
 function verilogText(text, id) {
     return new Promise((resolve, reject) => {
         const python = '/usr/bin/python3';
-        const data_prefix = '/home/michael1017/env_test/data/';
-        const generator = '/home/michael1017/final/server/generator.py'
+        const data_prefix = '../data/';
+        const generator = 'generator.py'
         const filename = data_prefix + id;
         const filename_v = filename + '.v';
-
+        
         fs.writeFileSync(filename_v, text, (err) => {
             if (err) reject(err);
         });
@@ -31,6 +31,7 @@ function verilogText(text, id) {
     });
 }
 
+// not yet
 function verilogFile(file, id) {
     return new Promise((resolve, reject) => {
         const data_prefix = '/home/michael1017/env_test/data/';
@@ -58,9 +59,10 @@ function verilogFile(file, id) {
 function userDefinedText(text, id) {
     return new Promise((resolve, reject) => {
         const python = '/usr/bin/python3';
-        const data_prefix = '/home/michael1017/env_test/data/';
-        const interpreter = '/home/michael1017/final/Logic-Gate-Interpreter/Interpreter';
-        const generator = '/home/michael1017/final/server/generator.py'
+        const data_prefix = '../data/';
+        const interpreter = '../Logic-Gate-Interpreter/Interpreter';
+        const generator = 'generator.py'
+
         const filename = data_prefix + id;
         const filename_txt = filename + '.txt';
         const filename_v = filename + '.v';
@@ -71,7 +73,7 @@ function userDefinedText(text, id) {
 
         const interpreterLog = spawnSync(
             interpreter, 
-            [filename_txt]
+            [filename_txt, filename_v]
         );
         const generatorLog = spawnSync(
             python, 
