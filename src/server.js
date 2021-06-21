@@ -17,7 +17,7 @@ app.use(
 );
 app.use(accessController);
 app.use('/api/send', generatorRouter);
-app.use('/api/receive', returnRouter);
+app.use('/api/', returnRouter);
 app.get('/*', (req, res) => res.redirect('/'));
 app.use(errorHandler);
 

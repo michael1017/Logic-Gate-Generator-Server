@@ -58,6 +58,8 @@ function verilogFile(file, id) {
 
 function userDefinedText(text, id) {
     return new Promise((resolve, reject) => {
+        console.log('into model/userDefinedText');
+        
         const python = '/usr/bin/python3';
         const data_prefix = '../data/';
         const interpreter = '../Logic-Gate-Interpreter/Interpreter';
