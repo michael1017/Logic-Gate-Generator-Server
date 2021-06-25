@@ -8,7 +8,8 @@ router.use(bodyParser.json());
 
 //To be verified
 router.get('/', function (req, res) {
-  const { id } = req.body;
+  const id = req.query.id;
+  console.log(id);
   const data_prefix = '../data/';
   const filename = data_prefix + id; // TODO: change 0 to id
   const filename_svg = filename + '.svg';
