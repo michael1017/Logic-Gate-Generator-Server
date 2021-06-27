@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+var formidable = require('multiparty');
 
 const generatorModel = require('../model/generator.js')
 
@@ -9,8 +10,9 @@ router.use(bodyParser.json());
 
 
 router.post('/verilogText', function (req, res, next) {
-  const { text, id } = req.body;
+  const { topModule, text, id } = req.body;
   console.log(id);
+  console.log(topModule);
   console.log('into router/verilogText');
 
   if (!text) {
@@ -18,27 +20,14 @@ router.post('/verilogText', function (req, res, next) {
     err.status = 400;
     throw err;
   }
-  generatorModel
-    .verilogText(text, id)
-    .then((post) => {
-      res.json(post);
-    })
-    .catch(next);
-});
-
-// not yet
-router.post('/verilogFile', function (req, res, next) {
-  const { file, id } = req.body;
-
-  console.log('into router/verilogFile');
-
-  if (!file) {
-    const err = new Error('verilogFile: No file input');
+  if (!topModule) {
+    const err = new Error('verilogText: No top module');
     err.status = 400;
     throw err;
   }
+
   generatorModel
-    .verilogFile(file, id)
+    .verilogText(topModule, text, id)
     .then((post) => {
       res.json(post);
     })
