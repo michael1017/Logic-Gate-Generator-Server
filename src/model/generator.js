@@ -19,12 +19,9 @@ function verilogText(topModule, text, id) {
             python, 
             [generator, "--input", filename_v, "--top", topModule]
         );
+        console.log("In model/generator.js");
         
-        const fileInfo = {
-            text: filename + '.svg',
-        };
-        
-        resolve(fileInfo);
+        resolve(filename);
     });
 }
 
@@ -53,12 +50,8 @@ function userDefinedText(text, id) {
             python, 
             [generator, "--input", filename_v]
         );
-
-        const fileInfo = {
-            text: filename + '.svg',
-        };
         
-        resolve(fileInfo);
+        resolve(filename);
     });
 }
 
