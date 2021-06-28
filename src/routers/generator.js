@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
 
 const generatorModel = require('../model/generator.js')
 
@@ -27,7 +28,7 @@ function deleteFile(filename, to_delete) {
 router.post('/verilogText', function (req, res, next) {
   const topModule = req.body.topmoduleName;
   const text = req.body.text;
-  const id = req.body.id;
+  const id = uuidv4();
 
   console.log('into router/verilogText');
   console.log(topModule, text, id);
@@ -77,7 +78,8 @@ router.post('/verilogText', function (req, res, next) {
 });
 
 router.post('/userDefinedText', function (req, res, next) {
-  const { text, id } = req.body;
+  const text = req.body.text;
+  const id = uuidv4();
   console.log(id);
   console.log('into router/userDefinedText');
   if (!text) {
