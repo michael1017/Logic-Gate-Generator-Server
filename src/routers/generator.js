@@ -8,6 +8,21 @@ const router = express.Router();
 
 router.use(bodyParser.json());
 
+function deleteFile(filename, to_delete) {
+  for(let i=0; i<to_delete.length; i++) {
+    if (!fs.existsSync(filename + to_delete[i])) {
+      continue;
+    }
+    fs.unlink(filename + to_delete[i], function(err){
+      if(err){
+        console.log(err);
+        throw err;
+      }
+      console.log(filename + to_delete[i], 'deleted successfully');
+    }); 
+  }
+}
+
 
 router.post('/verilogText', function (req, res, next) {
   const topModule = req.body.topmoduleName;
@@ -27,24 +42,36 @@ router.post('/verilogText', function (req, res, next) {
     .verilogText(topModule, text, id)
     .then((filename) => {
       console.log(filename);
-      fs.readFile(filename + '.svg', function(err, data) {
-        if (err) throw err // Fail if the file can't be read.
-        res.writeHead(200, {'Content-Type': 'image/svg+xml'});
-        res.end(Buffer.from(data).toString('utf8'));
-        
-        fs.unlink(filename + '.svg', function(err){
-          if(err) return console.log(err);
-          console.log('.svg deleted successfully');
-        }); 
-      })
-      fs.unlink(filename + '.v', function(err){
-        if(err) return console.log(err);
-        console.log('.v deleted successfully');
-      }); 
-      fs.unlink(filename + '.json', function(err){
-        if(err) return console.log(err);
-        console.log('.json deleted successfully');
-      });
+      if (fs.existsSync(filename + '.svg')) {
+        fs.readFile(filename + '.svg', function(err, data) {
+          if (err){
+            console.log("can't read " + filename + '.svg in router/verilogText');
+            throw err;
+          } 
+          res.writeHead(200, {'Content-Type': 'image/svg+xml'});
+          res.end(Buffer.from(data).toString('utf8'));
+          
+          if (filename != "errormsg") {
+            fs.unlink(filename + '.svg', function(err){
+              if(err){
+                console.log(err);
+                throw err;
+              }
+              console.log(filename + '.svg deleted successfully');
+            }); 
+          }
+        })
+      } else {
+        fs.readFile('synthesis_error.svg', function(err, data) {
+          if (err){
+            console.log("can't read synthesis_error.svg in router/verilogText");
+            throw err;
+          }
+          res.writeHead(200, {'Content-Type': 'image/svg+xml'});
+          res.end(Buffer.from(data).toString('utf8'));
+        })
+      }
+      deleteFile(filename, ['.v', '.json', '.txt']);
     })
     .catch(next);
 });
@@ -61,28 +88,37 @@ router.post('/userDefinedText', function (req, res, next) {
   generatorModel
     .userDefinedText(text, id)
     .then((filename) => {
-      fs.readFile(filename + '.svg', function(err, data) {
-        if (err) throw err // Fail if the file can't be read.
-        res.writeHead(200, {'Content-Type': 'image/svg+xml'});
-        res.end(Buffer.from(data).toString('utf8'));
-    
-        fs.unlink(filename + '.svg', function(err){
-          if(err) return console.log(err);
-          console.log('.svg deleted successfully');
-        }); 
-      })
-      fs.unlink(filename + '.v', function(err){
-        if(err) return console.log(err);
-        console.log('.v deleted successfully');
-      }); 
-      fs.unlink(filename + '.json', function(err){
-        if(err) return console.log(err);
-        console.log('.json deleted successfully');
-      }); 
-      fs.unlink(filename + '.txt', function(err){
-        if(err) return console.log(err);
-        console.log('.txt deleted successfully');
-      }); 
+      console.log(filename);
+      if (fs.existsSync(filename + '.svg')) {
+        fs.readFile(filename + '.svg', function(err, data) {
+          if (err){
+            console.log("can't read " + filename + '.svg in router/verilogText');
+            throw err;
+          }
+          res.writeHead(200, {'Content-Type': 'image/svg+xml'});
+          res.end(Buffer.from(data).toString('utf8'));
+          
+          if (filename != "errormsg") {
+            fs.unlink(filename + '.svg', function(err){
+              if(err){
+                console.log(err);
+                throw err;
+              }
+              console.log(filename + '.svg deleted successfully');
+            }); 
+          }
+        })
+      } else {
+        fs.readFile('synthesis_error.svg', function(err, data) {
+          if (err){
+            console.log("can't read synthesis_error.svg in router/verilogText");
+            throw err;
+          }
+          res.writeHead(200, {'Content-Type': 'image/svg+xml'});
+          res.end(Buffer.from(data).toString('utf8'));
+        })
+      }
+      deleteFile(filename, ['.v', '.json', '.txt']);
     })
     .catch(next);
 });

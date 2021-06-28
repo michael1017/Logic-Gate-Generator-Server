@@ -6,13 +6,13 @@ const { spawnSync } = require('child_process');
 function verilogText(topModule, text, id) {
     return new Promise((resolve, reject) => {
         const python = '/usr/bin/python3';
-        const data_prefix = '../data/';
+        const data_prefix = "/tmp/";
         const generator = 'generator.py'
         const filename = data_prefix + id;
         const filename_v = filename + '.v';
         
         fs.writeFileSync(filename_v, text, (err) => {
-            if (err) reject(err);
+            if (err) resolve("errormsg");
         });
 
         const generatorLog = spawnSync(
@@ -30,7 +30,7 @@ function userDefinedText(text, id) {
         console.log('into model/userDefinedText');
         
         const python = '/usr/bin/python3';
-        const data_prefix = '../data/';
+        const data_prefix = "/tmp/";
         const interpreter = '../Logic-Gate-Interpreter/Interpreter';
         const generator = 'generator.py'
 
@@ -39,7 +39,7 @@ function userDefinedText(text, id) {
         const filename_v = filename + '.v';
 
         fs.writeFileSync(filename_txt, text, (err) => {
-            if (err) reject(err);
+            if (err) resolve("errormsg");
         });
 
         const interpreterLog = spawnSync(
